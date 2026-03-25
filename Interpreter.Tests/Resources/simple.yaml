@@ -1,0 +1,13 @@
+movement:
+  initial: A
+  states:
+    A:
+      transitions:
+        - to: B
+          type: simple
+          event: AtoB
+    B:
+      transitions:
+        - to: A
+          type: simple
+          event: BtoA
