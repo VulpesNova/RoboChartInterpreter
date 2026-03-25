@@ -1,4 +1,4 @@
-namespace Interpreter;
+namespace RoboChartInterpreter;
 
 public class Event
 {

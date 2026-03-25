@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interpreter", "Interpreter\Interpreter.csproj", "{CDF617E1-B753-4E5B-8B4E-ABD2B61B1D96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboChartInterpreter", "RoboChartInterpreter\RoboChartInterpreter.csproj", "{CDF617E1-B753-4E5B-8B4E-ABD2B61B1D96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interpreter.Tests", "Interpreter.Tests\Interpreter.Tests.csproj", "{261D5F1F-048F-4F2A-94C8-860F766D6F73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoboChartInterpreter.Tests", "RoboChartInterpreter.Tests\RoboChartInterpreter.Tests.csproj", "{261D5F1F-048F-4F2A-94C8-860F766D6F73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

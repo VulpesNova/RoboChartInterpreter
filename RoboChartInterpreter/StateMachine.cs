@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Interpreter;
+namespace RoboChartInterpreter;
 
 public class StateMachine
 {

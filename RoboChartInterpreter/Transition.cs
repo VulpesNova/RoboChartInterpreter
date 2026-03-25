@@ -1,6 +1,6 @@
 using YamlDotNet.Serialization;
 
-namespace Interpreter;
+namespace RoboChartInterpreter;
 
 public class Transition
 {

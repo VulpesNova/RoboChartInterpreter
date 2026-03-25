@@ -1,4 +1,4 @@
-namespace Interpreter.Tests;
+namespace RoboChartInterpreter.Tests;
 
 using System.Collections;
 

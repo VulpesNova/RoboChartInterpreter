@@ -1,7 +1,7 @@
 using System.Text;
 using System.Transactions;
 
-namespace Interpreter;
+namespace RoboChartInterpreter;
 
 public class State
 {
