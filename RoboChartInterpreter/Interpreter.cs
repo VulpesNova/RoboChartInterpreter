@@ -28,7 +28,7 @@ public class Interpreter
         IDeserializer deserializer = new DeserializerBuilder()
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
             .Build();
-        ;
+        
         machines = deserializer.Deserialize<Dictionary<string, StateMachine>>(yaml);
         foreach (StateMachine machine in machines.Values)
         {
