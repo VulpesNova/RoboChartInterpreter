@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:agc="clr-namespace:AvaloniaGraphControl;assembly=AvaloniaGraphControl"
+        xmlns:visuals="clr-namespace:RoboChartInterpreter.GUI.StateMachineVisuals;assembly=RoboChartInterpreter.GUI"
+        mc:Ignorable="d"
+        d:DesignWidth="800"
+        d:DesignHeight="450"
+        x:Class="RoboChartInterpreter.GUI.MainWindow"
+        Title="RoboChartInterpreter.GUI">
+    <NativeMenu.Menu>
+        <NativeMenu>
+            <NativeMenuItem Header="Open Yaml"
+                            Click="OpenYaml" />
+        </NativeMenu>
+    </NativeMenu.Menu>
+    <Grid ColumnDefinitions="*, 4, 200">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto"
+                      Grid.Row="0"
+                      Grid.Column="0"
+                      >
+            <agc:GraphPanel Name="graphPanel" HorizontalAlignment="Stretch">
+                <agc:GraphPanel.DataTemplates>
+                    <DataTemplate DataType="{x:Type visuals:StateVisual}">
+                        <agc:TextSticker Text="{Binding Name}"
+                                         Background="{Binding Colour}"
+                                         Shape="RoundedRectangle"
+                                         Padding="1" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type visuals:InitialStateVisual}">
+                        <Ellipse Width="10"
+                                 Height="10"
+                                 Fill="Black" />
+                    </DataTemplate>
+                </agc:GraphPanel.DataTemplates>
+            </agc:GraphPanel>
+        </ScrollViewer>
+        <GridSplitter Grid.Column="1"/>
+        <StackPanel Grid.Row="0"
+                    Grid.Column="2">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Name="eventNameInput" />
+                <Button Click="SendEvent">Send Event</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
