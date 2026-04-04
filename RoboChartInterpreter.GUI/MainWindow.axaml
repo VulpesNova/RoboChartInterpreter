@@ -16,40 +16,53 @@
                             Click="OpenYaml" />
         </NativeMenu>
     </NativeMenu.Menu>
-    <Grid ColumnDefinitions="3*, *" RowDefinitions="*, Auto">
+    <Grid ColumnDefinitions="3*, *"
+          RowDefinitions="*, Auto">
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       Grid.Row="0"
                       Grid.Column="0"
-                      Grid.RowSpan="1"
-                      >
-            <agc:GraphPanel Name="graphPanel" HorizontalAlignment="Stretch">
-                <agc:GraphPanel.DataTemplates>
-                    <DataTemplate DataType="{x:Type visuals:StateVisual}">
-                        <agc:TextSticker Text="{Binding Name}"
-                                         Background="{Binding Colour}"
-                                         Shape="RoundedRectangle"
-                                         Padding="1" />
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type visuals:InitialStateVisual}">
-                        <Ellipse Width="10"
-                                 Height="10"
-                                 Fill="Black" />
-                    </DataTemplate>
-                </agc:GraphPanel.DataTemplates>
-            </agc:GraphPanel>
+                      Grid.RowSpan="1">
+            <LayoutTransformControl>
+                <LayoutTransformControl.LayoutTransform>
+                    <ScaleTransform ScaleX="2"
+                                    ScaleY="2" />
+                </LayoutTransformControl.LayoutTransform>
+                <agc:GraphPanel Name="graphPanel"
+                                HorizontalAlignment="Stretch">
+                    <agc:GraphPanel.DataTemplates>
+                        <DataTemplate DataType="{x:Type visuals:StateVisual}">
+                            <agc:TextSticker Text="{Binding Name}"
+                                             Background="{Binding Colour}"
+                                             Shape="RoundedRectangle"
+                                             Padding="1" />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type visuals:InitialStateVisual}">
+                            <Ellipse Width="10"
+                                     Height="10"
+                                     Fill="Black" />
+                        </DataTemplate>
+                    </agc:GraphPanel.DataTemplates>
+                </agc:GraphPanel>
+            </LayoutTransformControl>
         </ScrollViewer>
         <ScrollViewer Grid.Row="0"
-                      Grid.Column="1" 
-                      Name="logScrollViewer" >
-            <SelectableTextBlock Name="logBlock" TextWrapping="Wrap" />
+                      Grid.Column="1"
+                      Name="logScrollViewer">
+            <SelectableTextBlock Name="logBlock"
+                                 TextWrapping="Wrap" />
         </ScrollViewer>
         <Grid Grid.Row="1"
-              Grid.Column="1" 
+              Grid.Column="1"
               ColumnDefinitions="*, *, Auto">
-            <ComboBox Name="eventNameInput" Grid.Column="0" HorizontalAlignment="Stretch" />
-            <ComboBox Name="stateMachineInput" Grid.Column="1" HorizontalAlignment="Stretch" />
-            <Button Click="SendEventClick" Grid.Column="2">Send Event</Button>
+            <ComboBox Name="eventNameInput"
+                      Grid.Column="0"
+                      HorizontalAlignment="Stretch" />
+            <ComboBox Name="stateMachineInput"
+                      Grid.Column="1"
+                      HorizontalAlignment="Stretch" />
+            <Button Click="SendEventClick"
+                    Grid.Column="2">Send Event</Button>
         </Grid>
     </Grid>
 </Window>
