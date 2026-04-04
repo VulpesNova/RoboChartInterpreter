@@ -16,11 +16,12 @@
                             Click="OpenYaml" />
         </NativeMenu>
     </NativeMenu.Menu>
-    <Grid ColumnDefinitions="*, 4, 300">
+    <Grid ColumnDefinitions="3*, *" RowDefinitions="*, Auto">
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       Grid.Row="0"
                       Grid.Column="0"
+                      Grid.RowSpan="1"
                       >
             <agc:GraphPanel Name="graphPanel" HorizontalAlignment="Stretch">
                 <agc:GraphPanel.DataTemplates>
@@ -38,14 +39,17 @@
                 </agc:GraphPanel.DataTemplates>
             </agc:GraphPanel>
         </ScrollViewer>
-        <GridSplitter Grid.Column="1"/>
-        <StackPanel Grid.Row="0"
-                    Grid.Column="2">
-            <StackPanel Orientation="Horizontal">
-                <ComboBox Name="eventNameInput" />
-                <ComboBox Name="stateMachineInput" />
-                <Button Click="SendEventClick">Send Event</Button>
-            </StackPanel>
-        </StackPanel>
+        <ScrollViewer Grid.Row="0"
+                      Grid.Column="1" 
+                      Name="logScrollViewer" >
+            <SelectableTextBlock Name="logBlock" TextWrapping="Wrap" />
+        </ScrollViewer>
+        <Grid Grid.Row="1"
+              Grid.Column="1" 
+              ColumnDefinitions="*, *, Auto">
+            <ComboBox Name="eventNameInput" Grid.Column="0" HorizontalAlignment="Stretch" />
+            <ComboBox Name="stateMachineInput" Grid.Column="1" HorizontalAlignment="Stretch" />
+            <Button Click="SendEventClick" Grid.Column="2">Send Event</Button>
+        </Grid>
     </Grid>
 </Window>

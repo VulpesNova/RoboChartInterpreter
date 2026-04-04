@@ -11,6 +11,11 @@ public class Transition
 
     public bool Condition(Event e)
     {
-        return e.name == eventType;
+        return e.type == eventType;
+    }
+
+    public override string ToString()
+    {
+        return $"{eventType}";
     }
 }

@@ -44,7 +44,7 @@ public partial class MainWindow : Window
             {
                 foreach (Transition trans in state.transitions)
                 {
-                    Edge e = new(stateVisuals[state], stateVisuals[machine.Value.states[trans.to]], trans.eventType);
+                    Edge e = new(stateVisuals[state], stateVisuals[machine.Value.states[trans.to]], trans.ToString());
                     transVisuals.Add(trans, e);
                     graph.Edges.Add(e);
                 }
@@ -78,6 +78,9 @@ public partial class MainWindow : Window
             stateVisuals[interpreter.machines[update.Key].states[update.Value.active]].Colour = Brushes.LightGreen;
 
             lastUpdates[update.Key] = update.Value;
+
+            logBlock.Text += update.Value.ToString();
+            logScrollViewer.ScrollToEnd();
         }
     }
 
@@ -98,6 +101,7 @@ public partial class MainWindow : Window
         
         interpreter.LoadFromFile(files[0].Path.AbsolutePath);
         UpdateGraphPanel();
+        logBlock.Text = "";
         eventNameInput.Items.Clear();
         foreach (string e in interpreter.events) eventNameInput.Items.Add(e);
         stateMachineInput.Items.Clear();

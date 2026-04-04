@@ -2,10 +2,10 @@ namespace RoboChartInterpreter;
 
 public class Event
 {
-    public string name;
+    public string type;
 
-    public Event(string _name)
+    public Event(string _type)
     {
-        name = _name;
+        type = _type;
     }
 }

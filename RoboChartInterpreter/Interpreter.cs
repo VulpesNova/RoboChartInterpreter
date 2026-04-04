@@ -35,10 +35,10 @@ public class Interpreter
         HashSet<string> temp = new();
 
         machines = deserializer.Deserialize<Dictionary<string, StateMachine>>(yaml);
-        foreach (StateMachine machine in machines.Values)
+        foreach (KeyValuePair<string, StateMachine> machine in machines)
         {
-            machine.Initialize();
-            temp.UnionWith(machine.GetEvents());
+            machine.Value.Initialize(machine.Key);
+            temp.UnionWith(machine.Value.GetEvents());
         }
 
         events = temp.ToList();

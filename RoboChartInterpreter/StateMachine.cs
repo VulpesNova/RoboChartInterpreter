@@ -10,8 +10,9 @@ public class StateMachine
     public string active;
     public string initial;
 
-    public void Initialize()
+    public void Initialize(string _name)
     {
+        name = _name;
         active = initial;
     }
 
@@ -19,13 +20,13 @@ public class StateMachine
     {
         Transition? trans = states[active].Step(e);
 
-        if (trans == null) return new(active);
+        if (trans == null) return new(name, active, e);
         
         string prev = active;
 
         active = trans.to;
 
-        return new(active)
+        return new(name, active, e)
         {
             previous = prev,
             transitionTaken = trans
@@ -42,14 +43,27 @@ public class StateMachine
     }
 }
 
-public class StateMachineUpdate
+public class StateMachineUpdate(string _machine, string _active, Event _e)
 {
     public string? previous;
     public Transition? transitionTaken;
-    public string active;
+    public string machine = _machine;
+    public string active = _active;
+    public Event e = _e;
 
-    public StateMachineUpdate(string _active)
+    public override string ToString()
     {
-        active = _active;
+        string message = $"{e.type} ({machine}):\n";
+        if (previous != null)
+        {
+            message += $"├ transition taken: {transitionTaken}\n";
+            message += $"├ previous state: {previous}\n";
+        }
+        else
+        {
+            message += $"├ no transition taken\n";
+        }
+        message += $"└ Active State: {active}\n\n";
+        return message;
     }
 }

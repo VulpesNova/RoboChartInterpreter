@@ -26,8 +26,8 @@ public class InterpreterTests
         b.transitions.Add(new() { to = "A", type = "simple", eventType = "BtoA" });
 
         move.states.Add("B", b);
-        
-        move.Initialize();
+
+        move.Initialize("movement");
 
         interRef.machines.Add("movement", move);
 
