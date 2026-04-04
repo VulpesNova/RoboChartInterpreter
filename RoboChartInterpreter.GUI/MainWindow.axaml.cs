@@ -20,7 +20,7 @@ public partial class MainWindow : Window
     Dictionary<State, StateVisual> stateVisuals = new();
     Dictionary<Transition, Edge> transVisuals = new();
 
-    Dictionary<string, StateMachineUpdate> updates = new();
+    Dictionary<string, StateMachineUpdate> lastUpdates = new();
 
     Graph graph = new();
 
@@ -44,7 +44,7 @@ public partial class MainWindow : Window
             {
                 foreach (Transition trans in state.transitions)
                 {
-                    Edge e = new(stateVisuals[state], stateVisuals[machine.Value.states[trans.to]], trans.eventName);
+                    Edge e = new(stateVisuals[state], stateVisuals[machine.Value.states[trans.to]], trans.eventType);
                     transVisuals.Add(trans, e);
                     graph.Edges.Add(e);
                 }
@@ -56,18 +56,28 @@ public partial class MainWindow : Window
         graphPanel.Graph = graph;
     }
 
-    public void SendEvent(object? sender, RoutedEventArgs args)
+    public void SendEventClick(object? sender, RoutedEventArgs args)
     {
+        Event e = eventNameInput.SelectedIndex != -1 ? new((string)eventNameInput.SelectedItem) : new("");
+
+        SendEvent(e, (string?)stateMachineInput.SelectedItem);
+    }
+
+    public void SendEvent(Event e, string? machine = null)
+    {
+        var updates = interpreter.Step(e, machine);
+
         foreach (var update in updates)
         {
-            stateVisuals[interpreter.machines[update.Key].states[update.Value.active]].Colour = Brushes.LightGray;
-        }
+            if (lastUpdates.Keys.Contains(update.Key))
+            {
+                var lastUpdate = lastUpdates[update.Key];
+                stateVisuals[interpreter.machines[update.Key].states[lastUpdate.active]].Colour = Brushes.LightGray;
+            }
 
-        updates = interpreter.Step(new(eventNameInput.Text));
-
-        foreach (var update in updates)
-        {
             stateVisuals[interpreter.machines[update.Key].states[update.Value.active]].Colour = Brushes.LightGreen;
+
+            lastUpdates[update.Key] = update.Value;
         }
     }
 
@@ -84,10 +94,16 @@ public partial class MainWindow : Window
             AllowMultiple = false
         });
 
-        if (files.Count >= 1)
-        {
-            interpreter.LoadFromFile(files[0].Path.AbsolutePath);
-            UpdateGraphPanel();
-        }
+        if (files.Count == 0) return;
+        
+        interpreter.LoadFromFile(files[0].Path.AbsolutePath);
+        UpdateGraphPanel();
+        eventNameInput.Items.Clear();
+        foreach (string e in interpreter.events) eventNameInput.Items.Add(e);
+        stateMachineInput.Items.Clear();
+        List<string> machines = interpreter.machines.Keys.ToList();
+        machines.Sort();
+        foreach (string m in machines) stateMachineInput.Items.Add(m);
+        SendEvent(new(""));
     }
 }

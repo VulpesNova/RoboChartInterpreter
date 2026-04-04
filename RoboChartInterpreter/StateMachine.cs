@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Dynamic;
+using System.Text;
 
 namespace RoboChartInterpreter;
 
@@ -29,6 +30,15 @@ public class StateMachine
             previous = prev,
             transitionTaken = trans
         };
+    }
+
+    public HashSet<string> GetEvents()
+    {
+        HashSet<string> temp = new();
+        
+        foreach (State s in states.Values) temp.UnionWith(s.GetEvents());
+        
+        return temp; 
     }
 }
 

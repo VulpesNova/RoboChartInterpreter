@@ -16,7 +16,7 @@
                             Click="OpenYaml" />
         </NativeMenu>
     </NativeMenu.Menu>
-    <Grid ColumnDefinitions="*, 4, 200">
+    <Grid ColumnDefinitions="*, 4, 300">
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       Grid.Row="0"
@@ -42,8 +42,9 @@
         <StackPanel Grid.Row="0"
                     Grid.Column="2">
             <StackPanel Orientation="Horizontal">
-                <TextBox Name="eventNameInput" />
-                <Button Click="SendEvent">Send Event</Button>
+                <ComboBox Name="eventNameInput" />
+                <ComboBox Name="stateMachineInput" />
+                <Button Click="SendEventClick">Send Event</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

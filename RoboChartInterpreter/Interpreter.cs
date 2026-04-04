@@ -8,13 +8,16 @@ namespace RoboChartInterpreter;
 public class Interpreter
 {
     public Dictionary<string, StateMachine> machines = new();
+    public List<string> events = new();
 
-    public Dictionary<string, StateMachineUpdate> Step(Event e)
+    public Dictionary<string, StateMachineUpdate> Step(Event e, string? machine = null)
     {
         Dictionary<string, StateMachineUpdate> updates = new();
 
         foreach (string key in machines.Keys)
         {
+            if (machine != null && key != machine) continue;
+
             updates.Add(key, machines[key].Step(e));
         }
 
@@ -29,10 +32,16 @@ public class Interpreter
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
             .Build();
         
+        HashSet<string> temp = new();
+
         machines = deserializer.Deserialize<Dictionary<string, StateMachine>>(yaml);
         foreach (StateMachine machine in machines.Values)
         {
             machine.Initialize();
+            temp.UnionWith(machine.GetEvents());
         }
+
+        events = temp.ToList();
+        events.Sort();
     }
 }

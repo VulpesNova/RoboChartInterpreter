@@ -16,4 +16,13 @@ public class State
 
         return null;
     }
+
+    public HashSet<string> GetEvents()
+    {
+        HashSet<string> temp = new();
+        
+        foreach (Transition t in transitions) temp.Add(t.eventType);
+        
+        return temp; 
+    }
 }
