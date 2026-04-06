@@ -17,6 +17,7 @@ public partial class MainWindow : Window
 {
     Interpreter interpreter = new();
 
+    Dictionary<StateMachine, StateMachineVisual> stateMachineVisuals = new();
     Dictionary<State, StateVisual> stateVisuals = new();
     Dictionary<Transition, Edge> transVisuals = new();
 
@@ -33,11 +34,21 @@ public partial class MainWindow : Window
     {
         graph = new();
 
+        InvisibleState i = new();
+
         foreach (var machine in interpreter.machines)
         {
+            StateMachineVisual smv = new(machine.Key);
+
+            stateMachineVisuals.Add(machine.Value, smv);
+
             foreach (var state in machine.Value.states)
             {
-                stateVisuals.Add(state.Value, new(state.Key, Brushes.LightGray));
+                StateVisual sv = new(state.Key, Brushes.LightGray);
+
+                stateVisuals.Add(state.Value, sv);
+
+                graph.Parent[sv] = smv;
             }
 
             foreach (State state in machine.Value.states.Values)
@@ -50,10 +61,20 @@ public partial class MainWindow : Window
                 }
             }
 
-            graph.Edges.Add(new(new InitialStateVisual(), stateVisuals[machine.Value.states[machine.Value.initial]]));
+            InitialStateVisual isv = new();
+
+            graph.Edges.Add(new(isv, stateVisuals[machine.Value.states[machine.Value.initial]]));
+            
+            graph.Parent[isv] = smv;
+
+            graph.Edges.Add(new InvisibleEdge(i, smv));
         }
 
+        Console.WriteLine("Setting Graph!");
+
         graphPanel.Graph = graph;
+
+        Console.WriteLine("Set Graph!");
     }
 
     public void SendEventClick(object? sender, RoutedEventArgs args)

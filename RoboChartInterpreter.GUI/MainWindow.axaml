@@ -42,6 +42,22 @@
                                      Height="10"
                                      Fill="Black" />
                         </DataTemplate>
+                        <DataTemplate DataType="{x:Type visuals:StateMachineVisual}">
+                            <agc:TextSticker Text="{Binding Name}"
+                                            Background="White"
+                                            Shape="RoundedRectangle"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Padding="1" />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type visuals:InvisibleEdge}">
+                            <agc:Connection Brush="Transparent" />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type visuals:InvisibleState}">
+                            <Ellipse Width="0"
+                                     Height="0"
+                                     Fill="Transparent" />
+                        </DataTemplate>
                     </agc:GraphPanel.DataTemplates>
                 </agc:GraphPanel>
             </LayoutTransformControl>
