@@ -1,0 +1,34 @@
+GasAnalysis:
+  initial: NoGas
+  states:
+    NoGas:
+      transitions:
+        - to: Analysis
+          type: event.input
+          event: gas
+          #variable: gs
+    Analysis:
+      transitions:
+        - to: NoGas
+          type: notrigger
+          #condition: analysis(gs) == "Status::noGas"
+          #action: resume
+        - to: GasDetected
+          type: notrigger
+          #condition: analysis(gs) == "Status::gasD"
+    GasDetected:
+      transitions:
+        - to: _final
+          type: notrigger
+          #condition: greaterorequal(intensity(gs), thr)
+          #action: stop
+        - to: Reading
+          type: notrigger
+          #condition: not greaterorequal(intensity(gs), thr)
+          #action: turn!location(gs)
+    Reading:
+      transitions:
+        - to: Analysis
+          type: event.input
+          event: gas
+          #variable: gs
