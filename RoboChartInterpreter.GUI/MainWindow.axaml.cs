@@ -88,7 +88,10 @@ public partial class MainWindow : Window
 
     public void SendEventClick(object? sender, RoutedEventArgs args)
     {
-        Event e = eventNameInput.SelectedIndex != -1 ? new((string)eventNameInput.SelectedItem) : new("");
+        string? value = eventValueInput.Text != "" ? eventValueInput.Text : null;
+        Event e = eventNameInput.SelectedIndex != -1 ? new((string)eventNameInput.SelectedItem, value) : new("");
+
+        eventValueInput.Text = "";
 
         SendEvent(e, (string?)stateMachineInput.SelectedItem);
     }

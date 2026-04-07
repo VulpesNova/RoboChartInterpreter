@@ -6,7 +6,7 @@ GasAnalysis:
         - to: Analysis
           type: event.input
           event: gas
-          #variable: gs
+          variable: gs
     Analysis:
       transitions:
         - to: NoGas
@@ -31,4 +31,4 @@ GasAnalysis:
         - to: Analysis
           type: event.input
           event: gas
-          #variable: gs
+          variable: gs

@@ -17,12 +17,12 @@
         </NativeMenu>
     </NativeMenu.Menu>
     <Grid ColumnDefinitions="3*, *"
-          RowDefinitions="*, Auto">
+          RowDefinitions="*, Auto, Auto">
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       Grid.Row="0"
                       Grid.Column="0"
-                      Grid.RowSpan="1">
+                      Grid.RowSpan="2">
             <LayoutTransformControl>
                 <LayoutTransformControl.LayoutTransform>
                     <ScaleTransform ScaleX="2"
@@ -44,11 +44,11 @@
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type visuals:StateMachineVisual}">
                             <agc:TextSticker Text="{Binding Name}"
-                                            Background="White"
-                                            Shape="RoundedRectangle"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            Padding="1" />
+                                             Background="White"
+                                             Shape="RoundedRectangle"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Stretch"
+                                             Padding="1" />
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type visuals:InvisibleEdge}">
                             <agc:Connection Brush="Transparent" />
@@ -80,5 +80,8 @@
             <Button Click="SendEventClick"
                     Grid.Column="2">Send Event</Button>
         </Grid>
+        <TextBox Name="eventValueInput"
+                 Grid.Row="2"
+                 Grid.Column="1" />
     </Grid>
 </Window>

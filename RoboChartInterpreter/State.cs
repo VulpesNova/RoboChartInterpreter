@@ -8,10 +8,10 @@ public class State
     public List<Transition> transitions = new();
     public string name;
 
-    public Transition? Step(Event e)
+    public Transition? Step(Event e, Dictionary<string, object> context)
     {
         foreach (Transition t in transitions)
-            if (t.Condition(e))
+            if (t.Condition(e, context))
                 return t;
 
         return null;
@@ -20,9 +20,9 @@ public class State
     public HashSet<string> GetEvents()
     {
         HashSet<string> temp = new();
-        
+
         foreach (Transition t in transitions) temp.Add(t.eventType);
-        
-        return temp; 
+
+        return temp;
     }
 }

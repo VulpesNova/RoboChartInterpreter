@@ -9,6 +9,7 @@ public class StateMachine
     public string name;
     public string active;
     public string initial;
+    public Dictionary<string, object> context = new();
 
     public void Initialize(string _name)
     {
@@ -18,10 +19,10 @@ public class StateMachine
 
     public StateMachineUpdate Step(Event e)
     {
-        Transition? trans = states[active].Step(e);
+        Transition? trans = states[active].Step(e, context);
 
         if (trans == null) return new(name, active, e);
-        
+
         string prev = active;
 
         active = trans.to;
@@ -36,10 +37,10 @@ public class StateMachine
     public HashSet<string> GetEvents()
     {
         HashSet<string> temp = new();
-        
+
         foreach (State s in states.Values) temp.UnionWith(s.GetEvents());
-        
-        return temp; 
+
+        return temp;
     }
 }
 
@@ -58,6 +59,10 @@ public class StateMachineUpdate(string _machine, string _active, Event _e)
         {
             message += $"├ transition taken: {transitionTaken}\n";
             message += $"├ previous state: {previous}\n";
+            if (transitionTaken.type == "event.input")
+            {
+                message += $"├ set variable '{transitionTaken.variable}' to: {e.value}\n";
+            }
         }
         else
         {
