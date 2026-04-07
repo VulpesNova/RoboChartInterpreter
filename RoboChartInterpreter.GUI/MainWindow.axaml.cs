@@ -40,6 +40,8 @@ public partial class MainWindow : Window
         {
             StateMachineVisual smv = new(machine.Key);
 
+            InitialStateVisual finalStateVis = new();
+
             stateMachineVisuals.Add(machine.Value, smv);
 
             foreach (var state in machine.Value.states)
@@ -55,26 +57,33 @@ public partial class MainWindow : Window
             {
                 foreach (Transition trans in state.transitions)
                 {
-                    Edge e = new(stateVisuals[state], stateVisuals[machine.Value.states[trans.to]], trans.ToString());
-                    transVisuals.Add(trans, e);
-                    graph.Edges.Add(e);
+                    if (trans.to != "_final")
+                    {
+                        Edge e = new(stateVisuals[state], stateVisuals[machine.Value.states[trans.to]], trans.ToString());
+                        transVisuals.Add(trans, e);
+                        graph.Edges.Add(e);
+                    }
+                    else
+                    {
+                        Edge e = new(stateVisuals[state], finalStateVis, trans.ToString());
+                        transVisuals.Add(trans, e);
+                        graph.Edges.Add(e);
+                    }
                 }
             }
 
             InitialStateVisual isv = new();
 
             graph.Edges.Add(new(isv, stateVisuals[machine.Value.states[machine.Value.initial]]));
-            
+
             graph.Parent[isv] = smv;
+
+            graph.Parent[finalStateVis] = smv;
 
             graph.Edges.Add(new InvisibleEdge(i, smv));
         }
 
-        Console.WriteLine("Setting Graph!");
-
         graphPanel.Graph = graph;
-
-        Console.WriteLine("Set Graph!");
     }
 
     public void SendEventClick(object? sender, RoutedEventArgs args)
@@ -119,7 +128,7 @@ public partial class MainWindow : Window
         });
 
         if (files.Count == 0) return;
-        
+
         interpreter.LoadFromFile(files[0].Path.AbsolutePath);
         UpdateGraphPanel();
         logBlock.Text = "";
