@@ -18,12 +18,12 @@ public class InterpreterTests
         };
 
         State a = new();
-        a.transitions.Add(new() { to = "B", type = "simple", eventType = "AtoB" });
+        a.transitions.Add(new() { to = "B", type = "event.simple", eventType = "AtoB" });
 
         move.states.Add("A", a);
 
         State b = new();
-        b.transitions.Add(new() { to = "A", type = "simple", eventType = "BtoA" });
+        b.transitions.Add(new() { to = "A", type = "event.simple", eventType = "BtoA" });
 
         move.states.Add("B", b);
 

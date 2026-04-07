@@ -4,10 +4,10 @@ movement:
     A:
       transitions:
         - to: B
-          type: simple
+          type: event.simple
           event: AtoB
     B:
       transitions:
         - to: A
-          type: simple
+          type: event.simple
           event: BtoA
