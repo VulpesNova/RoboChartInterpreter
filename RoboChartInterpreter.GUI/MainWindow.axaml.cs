@@ -100,9 +100,13 @@ public partial class MainWindow : Window
                 if (lastUpdates.Keys.Contains(innerUpdate.Key))
                 {
                     var lastUpdate = lastUpdates[innerUpdate.Key];
+                    if (lastUpdate.previous != null)
+                        stateVisuals[interpreter.machines[innerUpdate.Key].states[lastUpdate.previous]].Colour = Brushes.LightGray;
                     stateVisuals[interpreter.machines[innerUpdate.Key].states[lastUpdate.active]].Colour = Brushes.LightGray;
                 }
 
+                if (innerUpdate.Value.previous != null)
+                    stateVisuals[interpreter.machines[innerUpdate.Key].states[innerUpdate.Value.previous]].Colour = Brushes.Yellow;
                 stateVisuals[interpreter.machines[innerUpdate.Key].states[innerUpdate.Value.active]].Colour = Brushes.LightGreen;
 
                 lastUpdates[innerUpdate.Key] = innerUpdate.Value;
