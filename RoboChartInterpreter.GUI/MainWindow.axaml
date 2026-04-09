@@ -31,6 +31,11 @@
                 <agc:GraphPanel Name="graphPanel"
                                 HorizontalAlignment="Stretch">
                     <agc:GraphPanel.DataTemplates>
+                        <DataTemplate DataType="{x:Type visuals:FinalStateVisual}">
+                            <Ellipse Width="10"
+                                     Height="10"
+                                     Fill="{Binding Colour}" />
+                        </DataTemplate>
                         <DataTemplate DataType="{x:Type visuals:StateVisual}">
                             <agc:TextSticker Text="{Binding Name}"
                                              Background="{Binding Colour}"

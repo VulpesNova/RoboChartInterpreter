@@ -15,6 +15,7 @@ public class StateMachine
     {
         name = _name;
         active = initial;
+        states["_final"] = new();
     }
 
     public StateMachineUpdate Step(Event e)

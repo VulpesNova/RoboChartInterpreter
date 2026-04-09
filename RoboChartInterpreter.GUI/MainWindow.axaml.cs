@@ -40,13 +40,11 @@ public partial class MainWindow : Window
         {
             StateMachineVisual smv = new(machine.Key);
 
-            InitialStateVisual finalStateVis = new();
-
             stateMachineVisuals.Add(machine.Value, smv);
 
             foreach (var state in machine.Value.states)
             {
-                StateVisual sv = new(state.Key, Brushes.LightGray);
+                StateVisual sv = state.Key == "_final" ? new FinalStateVisual() : new StateVisual(state.Key, Brushes.LightGray);
 
                 stateVisuals.Add(state.Value, sv);
 
@@ -57,18 +55,9 @@ public partial class MainWindow : Window
             {
                 foreach (Transition trans in state.transitions)
                 {
-                    if (trans.to != "_final")
-                    {
-                        Edge e = new(stateVisuals[state], stateVisuals[machine.Value.states[trans.to]], trans.ToString());
-                        transVisuals.Add(trans, e);
-                        graph.Edges.Add(e);
-                    }
-                    else
-                    {
-                        Edge e = new(stateVisuals[state], finalStateVis, trans.ToString());
-                        transVisuals.Add(trans, e);
-                        graph.Edges.Add(e);
-                    }
+                    Edge e = new(stateVisuals[state], stateVisuals[machine.Value.states[trans.to]], trans.ToString());
+                    transVisuals.Add(trans, e);
+                    graph.Edges.Add(e);
                 }
             }
 
@@ -77,8 +66,6 @@ public partial class MainWindow : Window
             graph.Edges.Add(new(isv, stateVisuals[machine.Value.states[machine.Value.initial]]));
 
             graph.Parent[isv] = smv;
-
-            graph.Parent[finalStateVis] = smv;
 
             graph.Edges.Add(new InvisibleEdge(i, smv));
         }
