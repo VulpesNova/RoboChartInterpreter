@@ -89,6 +89,7 @@
                  Grid.Row="2"
                  Grid.Column="1" />
         <CheckBox Name="multipleTransDelayCheck"
+                  IsChecked="True"
                   Grid.Row="3"
                   Grid.Column="1">Add delay between transitions when multiple taken?</CheckBox>
     </Grid>
