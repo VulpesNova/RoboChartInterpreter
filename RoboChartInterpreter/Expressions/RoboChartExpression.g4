@@ -3,6 +3,7 @@ grammar RoboChartExpression;
 expression:
 	literal													# LiteralExpr
 	| NAME													# VariableExpr
+	| '(' expression ')'									# ParenthisedExpr
 	| expression op = ('*' | '/') expression				# BinaryExpr
 	| expression op = ('+' | '-') expression				# BinaryExpr
 	| expression op = ('>' | '>=' | '<' | '<=') expression	# BinaryExpr

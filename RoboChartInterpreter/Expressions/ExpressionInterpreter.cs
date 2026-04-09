@@ -139,5 +139,10 @@ namespace RoboChartInterpreter.Expressions
         {
             return double.Parse(context.REAL().Symbol.Text);
         }
+
+        public object VisitParenthisedExpr([NotNull] RoboChartExpressionParser.ParenthisedExprContext context)
+        {
+            return context.expression().Accept(this);
+        }
     }
 }

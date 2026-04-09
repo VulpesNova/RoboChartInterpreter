@@ -54,6 +54,13 @@ public interface IRoboChartExpressionVisitor<Result> : IParseTreeVisitor<Result>
 	/// <return>The visitor result.</return>
 	Result VisitVariableExpr([NotNull] RoboChartExpressionParser.VariableExprContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>ParenthisedExpr</c>
+	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParenthisedExpr([NotNull] RoboChartExpressionParser.ParenthisedExprContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>IntLiteral</c>
 	/// labeled alternative in <see cref="RoboChartExpressionParser.literal"/>.
 	/// </summary>

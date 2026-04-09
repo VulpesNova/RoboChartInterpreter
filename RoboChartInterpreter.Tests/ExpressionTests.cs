@@ -58,4 +58,15 @@ public class ExpressionTests
         ExpressionInterpreter visitor = new();
         Assert.Equal(expected, (double)visitor.Interpret(input), 10);
     }
+
+    [Theory]
+    [InlineData("2-(8.0-2)", -4.0)]
+    [InlineData("(2-8.0)-2", -8.0)]
+    [InlineData("(4.0 / 2) / 2", 1.0)]
+    [InlineData("4.0 / (2 / 2)", 4.0)]
+    public void ParenthisedTest(string input, double expected)
+    {
+        ExpressionInterpreter visitor = new();
+        Assert.Equal(expected, (double)visitor.Interpret(input), 10);
+    }
 }

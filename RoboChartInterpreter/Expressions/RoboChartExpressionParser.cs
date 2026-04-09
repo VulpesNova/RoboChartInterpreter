@@ -38,7 +38,7 @@ public partial class RoboChartExpressionParser : Parser {
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, INT=11, REAL=12, NAME=13, STRING=14, WS=15;
+		T__9=10, T__10=11, T__11=12, INT=13, REAL=14, NAME=15, STRING=16, WS=17;
 	public const int
 		RULE_expression = 0, RULE_literal = 1;
 	public static readonly string[] ruleNames = {
@@ -46,12 +46,12 @@ public partial class RoboChartExpressionParser : Parser {
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'*'", "'/'", "'+'", "'-'", "'>'", "'>='", "'<'", "'<='", "'=='", 
-		"'!='"
+		null, "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'>'", "'>='", "'<'", 
+		"'<='", "'=='", "'!='"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, null, null, null, null, null, null, null, null, null, null, "INT", 
-		"REAL", "NAME", "STRING", "WS"
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, "INT", "REAL", "NAME", "STRING", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -135,6 +135,18 @@ public partial class RoboChartExpressionParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
+	public partial class ParenthisedExprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
+		}
+		public ParenthisedExprContext(ExpressionContext context) { CopyFrom(context); }
+		[System.Diagnostics.DebuggerNonUserCode]
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IRoboChartExpressionVisitor<TResult> typedVisitor = visitor as IRoboChartExpressionVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitParenthisedExpr(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 
 	[RuleVersion(0)]
 	public ExpressionContext expression() {
@@ -153,7 +165,7 @@ public partial class RoboChartExpressionParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 7;
+			State = 11;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case INT:
@@ -177,11 +189,24 @@ public partial class RoboChartExpressionParser : Parser {
 				Match(NAME);
 				}
 				break;
+			case T__0:
+				{
+				_localctx = new ParenthisedExprContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+				State = 7;
+				Match(T__0);
+				State = 8;
+				expression(0);
+				State = 9;
+				Match(T__1);
+				}
+				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			Context.Stop = TokenStream.LT(-1);
-			State = 23;
+			State = 27;
 			ErrorHandler.Sync(this);
 			_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
@@ -190,36 +215,16 @@ public partial class RoboChartExpressionParser : Parser {
 						TriggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					State = 21;
+					State = 25;
 					ErrorHandler.Sync(this);
 					switch ( Interpreter.AdaptivePredict(TokenStream,1,Context) ) {
 					case 1:
 						{
 						_localctx = new BinaryExprContext(new ExpressionContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
-						State = 9;
-						if (!(Precpred(Context, 4))) throw new FailedPredicateException(this, "Precpred(Context, 4)");
-						State = 10;
-						((BinaryExprContext)_localctx).op = TokenStream.LT(1);
-						_la = TokenStream.LA(1);
-						if ( !(_la==T__0 || _la==T__1) ) {
-							((BinaryExprContext)_localctx).op = ErrorHandler.RecoverInline(this);
-						}
-						else {
-							ErrorHandler.ReportMatch(this);
-						    Consume();
-						}
-						State = 11;
-						expression(5);
-						}
-						break;
-					case 2:
-						{
-						_localctx = new BinaryExprContext(new ExpressionContext(_parentctx, _parentState));
-						PushNewRecursionContext(_localctx, _startState, RULE_expression);
-						State = 12;
-						if (!(Precpred(Context, 3))) throw new FailedPredicateException(this, "Precpred(Context, 3)");
 						State = 13;
+						if (!(Precpred(Context, 4))) throw new FailedPredicateException(this, "Precpred(Context, 4)");
+						State = 14;
 						((BinaryExprContext)_localctx).op = TokenStream.LT(1);
 						_la = TokenStream.LA(1);
 						if ( !(_la==T__2 || _la==T__3) ) {
@@ -229,7 +234,27 @@ public partial class RoboChartExpressionParser : Parser {
 							ErrorHandler.ReportMatch(this);
 						    Consume();
 						}
-						State = 14;
+						State = 15;
+						expression(5);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new BinaryExprContext(new ExpressionContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expression);
+						State = 16;
+						if (!(Precpred(Context, 3))) throw new FailedPredicateException(this, "Precpred(Context, 3)");
+						State = 17;
+						((BinaryExprContext)_localctx).op = TokenStream.LT(1);
+						_la = TokenStream.LA(1);
+						if ( !(_la==T__4 || _la==T__5) ) {
+							((BinaryExprContext)_localctx).op = ErrorHandler.RecoverInline(this);
+						}
+						else {
+							ErrorHandler.ReportMatch(this);
+						    Consume();
+						}
+						State = 18;
 						expression(4);
 						}
 						break;
@@ -237,19 +262,19 @@ public partial class RoboChartExpressionParser : Parser {
 						{
 						_localctx = new BinaryExprContext(new ExpressionContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
-						State = 15;
+						State = 19;
 						if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
-						State = 16;
+						State = 20;
 						((BinaryExprContext)_localctx).op = TokenStream.LT(1);
 						_la = TokenStream.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 480L) != 0)) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 1920L) != 0)) ) {
 							((BinaryExprContext)_localctx).op = ErrorHandler.RecoverInline(this);
 						}
 						else {
 							ErrorHandler.ReportMatch(this);
 						    Consume();
 						}
-						State = 17;
+						State = 21;
 						expression(3);
 						}
 						break;
@@ -257,26 +282,26 @@ public partial class RoboChartExpressionParser : Parser {
 						{
 						_localctx = new BinaryExprContext(new ExpressionContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_expression);
-						State = 18;
+						State = 22;
 						if (!(Precpred(Context, 1))) throw new FailedPredicateException(this, "Precpred(Context, 1)");
-						State = 19;
+						State = 23;
 						((BinaryExprContext)_localctx).op = TokenStream.LT(1);
 						_la = TokenStream.LA(1);
-						if ( !(_la==T__8 || _la==T__9) ) {
+						if ( !(_la==T__10 || _la==T__11) ) {
 							((BinaryExprContext)_localctx).op = ErrorHandler.RecoverInline(this);
 						}
 						else {
 							ErrorHandler.ReportMatch(this);
 						    Consume();
 						}
-						State = 20;
+						State = 24;
 						expression(2);
 						}
 						break;
 					}
 					} 
 				}
-				State = 25;
+				State = 29;
 				ErrorHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(TokenStream,2,Context);
 			}
@@ -341,14 +366,14 @@ public partial class RoboChartExpressionParser : Parser {
 		LiteralContext _localctx = new LiteralContext(Context, State);
 		EnterRule(_localctx, 2, RULE_literal);
 		try {
-			State = 29;
+			State = 33;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case INT:
 				_localctx = new IntLiteralContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 26;
+				State = 30;
 				Match(INT);
 				}
 				break;
@@ -356,7 +381,7 @@ public partial class RoboChartExpressionParser : Parser {
 				_localctx = new StringLiteralContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 27;
+				State = 31;
 				Match(STRING);
 				}
 				break;
@@ -364,7 +389,7 @@ public partial class RoboChartExpressionParser : Parser {
 				_localctx = new RealLiteralContext(_localctx);
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 28;
+				State = 32;
 				Match(REAL);
 				}
 				break;
@@ -400,17 +425,18 @@ public partial class RoboChartExpressionParser : Parser {
 	}
 
 	private static int[] _serializedATN = {
-		4,1,15,32,2,0,7,0,2,1,7,1,1,0,1,0,1,0,3,0,8,8,0,1,0,1,0,1,0,1,0,1,0,1,
-		0,1,0,1,0,1,0,1,0,1,0,1,0,5,0,22,8,0,10,0,12,0,25,9,0,1,1,1,1,1,1,3,1,
-		30,8,1,1,1,0,1,0,2,0,2,0,4,1,0,1,2,1,0,3,4,1,0,5,8,1,0,9,10,36,0,7,1,0,
-		0,0,2,29,1,0,0,0,4,5,6,0,-1,0,5,8,3,2,1,0,6,8,5,13,0,0,7,4,1,0,0,0,7,6,
-		1,0,0,0,8,23,1,0,0,0,9,10,10,4,0,0,10,11,7,0,0,0,11,22,3,0,0,5,12,13,10,
-		3,0,0,13,14,7,1,0,0,14,22,3,0,0,4,15,16,10,2,0,0,16,17,7,2,0,0,17,22,3,
-		0,0,3,18,19,10,1,0,0,19,20,7,3,0,0,20,22,3,0,0,2,21,9,1,0,0,0,21,12,1,
-		0,0,0,21,15,1,0,0,0,21,18,1,0,0,0,22,25,1,0,0,0,23,21,1,0,0,0,23,24,1,
-		0,0,0,24,1,1,0,0,0,25,23,1,0,0,0,26,30,5,11,0,0,27,30,5,14,0,0,28,30,5,
-		12,0,0,29,26,1,0,0,0,29,27,1,0,0,0,29,28,1,0,0,0,30,3,1,0,0,0,4,7,21,23,
-		29
+		4,1,17,36,2,0,7,0,2,1,7,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,3,0,12,8,0,1,0,1,
+		0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,5,0,26,8,0,10,0,12,0,29,9,0,
+		1,1,1,1,1,1,3,1,34,8,1,1,1,0,1,0,2,0,2,0,4,1,0,3,4,1,0,5,6,1,0,7,10,1,
+		0,11,12,41,0,11,1,0,0,0,2,33,1,0,0,0,4,5,6,0,-1,0,5,12,3,2,1,0,6,12,5,
+		15,0,0,7,8,5,1,0,0,8,9,3,0,0,0,9,10,5,2,0,0,10,12,1,0,0,0,11,4,1,0,0,0,
+		11,6,1,0,0,0,11,7,1,0,0,0,12,27,1,0,0,0,13,14,10,4,0,0,14,15,7,0,0,0,15,
+		26,3,0,0,5,16,17,10,3,0,0,17,18,7,1,0,0,18,26,3,0,0,4,19,20,10,2,0,0,20,
+		21,7,2,0,0,21,26,3,0,0,3,22,23,10,1,0,0,23,24,7,3,0,0,24,26,3,0,0,2,25,
+		13,1,0,0,0,25,16,1,0,0,0,25,19,1,0,0,0,25,22,1,0,0,0,26,29,1,0,0,0,27,
+		25,1,0,0,0,27,28,1,0,0,0,28,1,1,0,0,0,29,27,1,0,0,0,30,34,5,13,0,0,31,
+		34,5,16,0,0,32,34,5,14,0,0,33,30,1,0,0,0,33,31,1,0,0,0,33,32,1,0,0,0,34,
+		3,1,0,0,0,4,11,25,27,33
 	};
 
 	public static readonly ATN _ATN =
