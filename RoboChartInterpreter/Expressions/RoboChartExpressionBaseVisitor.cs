@@ -36,6 +36,17 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class RoboChartExpressionBaseVisitor<Result> : AbstractParseTreeVisitor<Result>, IRoboChartExpressionVisitor<Result> {
 	/// <summary>
+	/// Visit a parse tree produced by the <c>ClockExpr</c>
+	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitClockExpr([NotNull] RoboChartExpressionParser.ClockExprContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by the <c>BinaryExpr</c>
 	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
 	/// <para>
@@ -58,17 +69,6 @@ public partial class RoboChartExpressionBaseVisitor<Result> : AbstractParseTreeV
 	/// <return>The visitor result.</return>
 	public virtual Result VisitLiteralExpr([NotNull] RoboChartExpressionParser.LiteralExprContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>VariableExpr</c>
-	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitVariableExpr([NotNull] RoboChartExpressionParser.VariableExprContext context) { return VisitChildren(context); }
-	/// <summary>
 	/// Visit a parse tree produced by the <c>ParenthisedExpr</c>
 	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
 	/// <para>
@@ -79,6 +79,17 @@ public partial class RoboChartExpressionBaseVisitor<Result> : AbstractParseTreeV
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitParenthisedExpr([NotNull] RoboChartExpressionParser.ParenthisedExprContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by the <c>VariableExpr</c>
+	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitVariableExpr([NotNull] RoboChartExpressionParser.VariableExprContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>IntLiteral</c>
 	/// labeled alternative in <see cref="RoboChartExpressionParser.literal"/>.

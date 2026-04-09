@@ -10,6 +10,16 @@ public class Interpreter
     public Dictionary<string, StateMachine> machines = new();
     public List<string> events = new();
 
+    public List<Dictionary<string, StateMachineUpdate>> TickClocks()
+    {
+        foreach (StateMachine m in machines.Values)
+        {
+            m.TickClocks();
+        }
+
+        return Step(new(null));
+    }
+
     public List<Dictionary<string, StateMachineUpdate>> Step(Event e, string? machine = null)
     {
         List<Dictionary<string, StateMachineUpdate>> updates = new();

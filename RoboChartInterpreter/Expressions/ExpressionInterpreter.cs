@@ -12,6 +12,7 @@ namespace RoboChartInterpreter.Expressions
     public class ExpressionInterpreter : AbstractParseTreeVisitor<object>, IRoboChartExpressionVisitor<object>
     {
         public Dictionary<string, object> variables = new();
+        public Dictionary<string, int> clocks = new();
 
         public object Interpret(string input)
         {
@@ -143,6 +144,12 @@ namespace RoboChartInterpreter.Expressions
         public object VisitParenthisedExpr([NotNull] RoboChartExpressionParser.ParenthisedExprContext context)
         {
             return context.expression().Accept(this);
+        }
+
+        public object VisitClockExpr([NotNull] RoboChartExpressionParser.ClockExprContext context)
+        {
+            Console.WriteLine($"{context.NAME().Symbol.Text}: {clocks[context.NAME().Symbol.Text]}");
+            return clocks[context.NAME().Symbol.Text];
         }
     }
 }

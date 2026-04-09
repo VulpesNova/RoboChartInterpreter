@@ -1,13 +1,14 @@
 grammar RoboChartExpression;
 
 expression:
-	literal													# LiteralExpr
-	| NAME													# VariableExpr
+	'since(' NAME ')'										# ClockExpr
 	| '(' expression ')'									# ParenthisedExpr
 	| expression op = ('*' | '/') expression				# BinaryExpr
 	| expression op = ('+' | '-') expression				# BinaryExpr
 	| expression op = ('>' | '>=' | '<' | '<=') expression	# BinaryExpr
-	| expression op = ('==' | '!=') expression				# BinaryExpr;
+	| expression op = ('==' | '!=') expression				# BinaryExpr
+	| NAME													# VariableExpr
+	| literal												# LiteralExpr;
 
 literal:
 	INT			# IntLiteral

@@ -11,6 +11,8 @@ public class Transition
     public string? eventType;
     public string? variable;
     public string? condition;
+    [YamlMember(Alias = "clock_resets", ApplyNamingConventions = false)]
+    public List<string>? clockResets;
 
     public bool Check(Event e, ExpressionInterpreter visitor)
     {
@@ -38,6 +40,9 @@ public class Transition
     {
         string temp = $"{eventType}";
         if (condition != null) temp += $"[{condition}]";
+        if (clockResets != null)
+            foreach (string clock in clockResets)
+                temp += $" #{clock}";
         return temp;
     }
 }

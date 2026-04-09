@@ -13,6 +13,7 @@ public class StateMachine
     public string initial;
     [YamlMember(Alias = "initial_vars", ApplyNamingConventions = false)]
     public Dictionary<string, string> initialVars = new();
+    public List<string> clocks = new();
     ExpressionInterpreter visitor = new();
 
     public void Initialize(string _name)
@@ -20,6 +21,10 @@ public class StateMachine
         name = _name;
         active = initial;
         states["_final"] = new();
+        foreach (string clock in clocks)
+        {
+            visitor.clocks[clock] = 0;
+        }
         foreach (var v in initialVars)
         {
             object? value;
@@ -32,6 +37,14 @@ public class StateMachine
         }
     }
 
+    public void TickClocks()
+    {
+        foreach (string clock in clocks)
+        {
+            visitor.clocks[clock]++;
+        }
+    }
+
     public StateMachineUpdate Step(Event e)
     {
         Transition? trans = states[active].Step(e, visitor);
@@ -41,6 +54,9 @@ public class StateMachine
         string prev = active;
 
         active = trans.to;
+        if (trans.clockResets != null)
+            foreach (string clock in trans.clockResets)
+                visitor.clocks[clock] = 0;
 
         return new(name, active, e)
         {

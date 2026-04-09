@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
 using AvaloniaGraphControl;
 using RoboChartInterpreter.GUI.StateMachineVisuals;
@@ -74,6 +75,11 @@ public partial class MainWindow : Window
         graphPanel.Graph = graph;
     }
 
+    public void TickClocksClick(object? sender, RoutedEventArgs args)
+    {
+        DisplayUpdates(interpreter.TickClocks());
+    }
+
     public void SendEventClick(object? sender, RoutedEventArgs args)
     {
         object? value;
@@ -86,13 +92,12 @@ public partial class MainWindow : Window
 
         eventValueInput.Text = "";
 
-        SendEvent(e, (string?)stateMachineInput.SelectedItem);
+
+        DisplayUpdates(interpreter.Step(e, (string?)stateMachineInput.SelectedItem));
     }
 
-    public async void SendEvent(Event e, string? machine = null)
+    public async void DisplayUpdates(List<Dictionary<string, StateMachineUpdate>> updates)
     {
-        var updates = interpreter.Step(e, machine);
-
         foreach (var innerUpdates in updates)
         {
             foreach (var innerUpdate in innerUpdates)
@@ -143,6 +148,5 @@ public partial class MainWindow : Window
             StateMachine machine = interpreter.machines[m];
             stateVisuals[machine.states[machine.initial]].Colour = Brushes.LightGreen;
         }
-
     }
 }

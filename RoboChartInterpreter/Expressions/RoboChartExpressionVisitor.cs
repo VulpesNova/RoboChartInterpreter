@@ -33,6 +33,13 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface IRoboChartExpressionVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
+	/// Visit a parse tree produced by the <c>ClockExpr</c>
+	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitClockExpr([NotNull] RoboChartExpressionParser.ClockExprContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>BinaryExpr</c>
 	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
 	/// </summary>
@@ -47,19 +54,19 @@ public interface IRoboChartExpressionVisitor<Result> : IParseTreeVisitor<Result>
 	/// <return>The visitor result.</return>
 	Result VisitLiteralExpr([NotNull] RoboChartExpressionParser.LiteralExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>VariableExpr</c>
-	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitVariableExpr([NotNull] RoboChartExpressionParser.VariableExprContext context);
-	/// <summary>
 	/// Visit a parse tree produced by the <c>ParenthisedExpr</c>
 	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitParenthisedExpr([NotNull] RoboChartExpressionParser.ParenthisedExprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>VariableExpr</c>
+	/// labeled alternative in <see cref="RoboChartExpressionParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitVariableExpr([NotNull] RoboChartExpressionParser.VariableExprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>IntLiteral</c>
 	/// labeled alternative in <see cref="RoboChartExpressionParser.literal"/>.

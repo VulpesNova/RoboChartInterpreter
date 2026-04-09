@@ -85,9 +85,17 @@
             <Button Click="SendEventClick"
                     Grid.Column="2">Send Event</Button>
         </Grid>
-        <TextBox Name="eventValueInput"
-                 Grid.Row="2"
-                 Grid.Column="1" />
+        <Grid Grid.Row="2"
+              Grid.Column="1"
+              ColumnDefinitions="*, Auto">
+            <TextBox Name="eventValueInput"
+                     Grid.Column="0"
+                     HorizontalAlignment="Stretch" />
+            <Button Click="TickClocksClick"
+                    Grid.Column="1">                
+                Tick Clocks
+            </Button>
+        </Grid>
         <CheckBox Name="multipleTransDelayCheck"
                   IsChecked="True"
                   Grid.Row="3"
