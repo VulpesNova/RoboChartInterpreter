@@ -1,5 +1,7 @@
 
 
+using System.Collections;
+using System.Reflection.Metadata.Ecma335;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Dfa;
 using Antlr4.Runtime.Misc;
@@ -41,9 +43,50 @@ namespace RoboChartInterpreter.Expressions
                     return Greater(right, left);
                 case "<=":
                     return Greater(right, left) | Equal(left, right);
+                case "*":
+                case "/":
+                case "+":
+                case "-":
+                    return Arithmetic(left, right, context.op.Text);
                 default:
-                    throw new InvalidOperationException($"Operation {context.op.Text} does not exist.");
+                    throw new InvalidOperationRCException($"Operation {context.op.Text} does not exist.");
             }
+        }
+
+        object Arithmetic(object left, object right, string op)
+        {
+            if (left.GetType() == typeof(int) && right.GetType() == typeof(int))
+            {
+                switch (op)
+                {
+                    case "*":
+                        return (int)left * (int)right;
+                    case "/":
+                        return (int)left / (int)right;
+                    case "+":
+                        return (int)left + (int)right;
+                    case "-":
+                        return (int)left - (int)right;
+                }
+            }
+            if ((left.GetType() == typeof(double) && right.GetType() == typeof(int)) ||
+                (left.GetType() == typeof(int) && right.GetType() == typeof(double)) ||
+                (left.GetType() == typeof(double) && right.GetType() == typeof(double)))
+            {
+                switch (op)
+                {
+                    case "*":
+                        return Convert.ToDouble(left) * Convert.ToDouble(right);
+                    case "/":
+                        return Convert.ToDouble(left) / Convert.ToDouble(right);
+                    case "+":
+                        return Convert.ToDouble(left) + Convert.ToDouble(right);
+                    case "-":
+                        return Convert.ToDouble(left) - Convert.ToDouble(right);
+                }
+            }
+
+            throw new InvalidTypeRCException($"Operation {op} not valid for types '{left.GetType()}' and '{right.GetType()}'.");
         }
 
         bool Equal(object left, object right)

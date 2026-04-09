@@ -1,9 +1,12 @@
 grammar RoboChartExpression;
 
 expression:
-	literal																	# LiteralExpr
-	| NAME																	# VariableExpr
-	| expression op = ('==' | '!=' | '>' | '>=' | '<' | '<=') expression	# BinaryExpr;
+	literal													# LiteralExpr
+	| NAME													# VariableExpr
+	| expression op = ('*' | '/') expression				# BinaryExpr
+	| expression op = ('+' | '-') expression				# BinaryExpr
+	| expression op = ('>' | '>=' | '<' | '<=') expression	# BinaryExpr
+	| expression op = ('==' | '!=') expression				# BinaryExpr;
 
 literal:
 	INT			# IntLiteral
