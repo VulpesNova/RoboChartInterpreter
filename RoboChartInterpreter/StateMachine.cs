@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using System.Text;
+using RoboChartInterpreter.Expressions;
 
 namespace RoboChartInterpreter;
 
@@ -9,7 +10,7 @@ public class StateMachine
     public string name;
     public string active;
     public string initial;
-    public Dictionary<string, object> context = new();
+    ExpressionInterpreter visitor = new();
 
     public void Initialize(string _name)
     {
@@ -20,7 +21,7 @@ public class StateMachine
 
     public StateMachineUpdate Step(Event e)
     {
-        Transition? trans = states[active].Step(e, context);
+        Transition? trans = states[active].Step(e, visitor);
 
         if (trans == null) return new(name, active, e);
 

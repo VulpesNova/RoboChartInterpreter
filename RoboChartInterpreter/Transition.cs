@@ -1,3 +1,4 @@
+using RoboChartInterpreter.Expressions;
 using YamlDotNet.Serialization;
 
 namespace RoboChartInterpreter;
@@ -9,9 +10,12 @@ public class Transition
     [YamlMember(Alias = "event", ApplyNamingConventions = false)]
     public string? eventType;
     public string? variable;
+    public string? condition;
 
-    public bool Condition(Event e, Dictionary<string, object> context)
+    public bool Check(Event e, ExpressionInterpreter visitor)
     {
+        if (condition != null && !(bool)visitor.Interpret(condition)) return false;
+
         switch (type)
         {
             case "event.simple":
@@ -19,7 +23,7 @@ public class Transition
             case "event.input":
                 if (e.type == eventType)
                 {
-                    context[variable] = e.value;
+                    visitor.variables[variable] = e.value;
                     return true;
                 }
                 return false;
@@ -32,6 +36,8 @@ public class Transition
 
     public override string ToString()
     {
-        return $"{eventType}";
+        string temp = $"{eventType}";
+        if (condition != null) temp += $"[{condition}]";
+        return temp;
     }
 }

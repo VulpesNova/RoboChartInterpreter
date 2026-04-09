@@ -11,20 +11,20 @@ GasAnalysis:
       transitions:
         - to: NoGas
           type: notrigger
-          #condition: analysis(gs) == "Status::noGas"
+          condition: gs == "Status::noGas"
           #action: resume
         - to: GasDetected
           type: notrigger
-          #condition: analysis(gs) == "Status::gasD"
+          condition: gs == "Status::gasD"
     GasDetected:
       transitions:
         - to: _final
           type: notrigger
-          #condition: greaterorequal(intensity(gs), thr)
+          #condition: intensity(gs) >= thr
           #action: stop
         - to: Reading
           type: notrigger
-          #condition: not greaterorequal(intensity(gs), thr)
+          #condition: intensity(gs) < thr
           #action: turn!location(gs)
     Reading:
       transitions:

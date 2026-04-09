@@ -1,5 +1,6 @@
 using System.Text;
 using System.Transactions;
+using RoboChartInterpreter.Expressions;
 
 namespace RoboChartInterpreter;
 
@@ -8,10 +9,10 @@ public class State
     public List<Transition> transitions = new();
     public string name;
 
-    public Transition? Step(Event e, Dictionary<string, object> context)
+    public Transition? Step(Event e, ExpressionInterpreter visitor)
     {
         foreach (Transition t in transitions)
-            if (t.Condition(e, context))
+            if (t.Check(e, visitor))
                 return t;
 
         return null;
