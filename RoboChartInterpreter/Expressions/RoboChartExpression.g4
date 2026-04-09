@@ -1,9 +1,9 @@
 grammar RoboChartExpression;
 
 expression:
-	literal												# LiteralExpr
-	| NAME												# VariableExpr
-	| left = expression op = ('==' | '!=') expression	# BinaryExpr;
+	literal																	# LiteralExpr
+	| NAME																	# VariableExpr
+	| expression op = ('==' | '!=' | '>' | '>=' | '<' | '<=') expression	# BinaryExpr;
 
 literal:
 	INT			# IntLiteral

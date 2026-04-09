@@ -33,6 +33,14 @@ namespace RoboChartInterpreter.Expressions
                     return Equal(left, right);
                 case "!=":
                     return !Equal(left, right);
+                case ">":
+                    return Greater(left, right);
+                case ">=":
+                    return Greater(left, right) | Equal(left, right);
+                case "<":
+                    return Greater(right, left);
+                case "<=":
+                    return Greater(right, left) | Equal(left, right);
                 default:
                     throw new InvalidOperationException($"Operation {context.op.Text} does not exist.");
             }
@@ -48,6 +56,19 @@ namespace RoboChartInterpreter.Expressions
             if (left.GetType() == typeof(string)) return (string)left == (string)right;
             if (left.GetType() == typeof(int)) return (int)left == (int)right;
             if (left.GetType() == typeof(double)) return Math.Abs((double)left - (double)right) < 0.000001;
+            return false;
+        }
+
+        bool Greater(object left, object right)
+        {
+            if (left.GetType() == typeof(double) && right.GetType() == typeof(int) ||
+                left.GetType() == typeof(int) && right.GetType() == typeof(double))
+                return Convert.ToDouble(left) > Convert.ToDouble(right);
+
+            if (left.GetType() != right.GetType()) return false;
+            if (left.GetType() == typeof(string)) return false;
+            if (left.GetType() == typeof(int)) return (int)left > (int)right;
+            if (left.GetType() == typeof(double)) return (double)left > (double)right;
             return false;
         }
 

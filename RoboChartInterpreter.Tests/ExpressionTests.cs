@@ -20,6 +20,13 @@ public class ExpressionTests
     [InlineData("0.1 == 0.2", false)]
     [InlineData("0.1 != 0.1", false)]
     [InlineData("0.1 != 0.2", true)]
+    [InlineData("0.1 < 0.1", false)]
+    [InlineData("0.1 < 0.2", true)]
+    [InlineData("0.1 <= 0.1", true)]
+    [InlineData("0.1 >= 0.1", true)]
+    [InlineData("0.1 > 0.1", false)]
+    [InlineData("0.1 > 1", false)]
+    [InlineData("0.1 < 1", true)]
     public void ComparisonTest(string input, bool expected)
     {
         ExpressionInterpreter visitor = new();
