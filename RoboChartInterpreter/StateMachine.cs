@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using System.Text;
 using RoboChartInterpreter.Expressions;
+using YamlDotNet.Serialization;
 
 namespace RoboChartInterpreter;
 
@@ -10,6 +11,8 @@ public class StateMachine
     public string name;
     public string active;
     public string initial;
+    [YamlMember(Alias = "initial_vars", ApplyNamingConventions = false)]
+    public Dictionary<string, string> initialVars = new();
     ExpressionInterpreter visitor = new();
 
     public void Initialize(string _name)
@@ -17,6 +20,16 @@ public class StateMachine
         name = _name;
         active = initial;
         states["_final"] = new();
+        foreach (var v in initialVars)
+        {
+            object? value;
+            if (int.TryParse(v.Value, out int i))
+                value = i;
+            else if (double.TryParse(v.Value, out double d))
+                value = d;
+            else value = v.Value;
+            visitor.variables.Add(v.Key, value);
+        }
     }
 
     public StateMachineUpdate Step(Event e)

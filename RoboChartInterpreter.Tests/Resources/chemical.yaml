@@ -1,5 +1,7 @@
 GasAnalysis:
   initial: NoGas
+  initial_vars:
+    thr: 1
   states:
     NoGas:
       transitions:

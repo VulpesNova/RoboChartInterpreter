@@ -75,7 +75,12 @@ public partial class MainWindow : Window
 
     public void SendEventClick(object? sender, RoutedEventArgs args)
     {
-        string? value = eventValueInput.Text != "" ? eventValueInput.Text : null;
+        object? value;
+        if (int.TryParse(eventValueInput.Text, out int i))
+            value = i;
+        else if (double.TryParse(eventValueInput.Text, out double d))
+            value = d;
+        else value = eventValueInput.Text;
         Event e = eventNameInput.SelectedIndex != -1 ? new((string)eventNameInput.SelectedItem, value) : new("");
 
         eventValueInput.Text = "";
