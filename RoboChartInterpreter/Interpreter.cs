@@ -10,15 +10,33 @@ public class Interpreter
     public Dictionary<string, StateMachine> machines = new();
     public List<string> events = new();
 
-    public Dictionary<string, StateMachineUpdate> Step(Event e, string? machine = null)
+    public List<Dictionary<string, StateMachineUpdate>> Step(Event e, string? machine = null)
     {
-        Dictionary<string, StateMachineUpdate> updates = new();
+        List<Dictionary<string, StateMachineUpdate>> updates = new();
 
-        foreach (string key in machines.Keys)
+        int repeats = 0;
+
+        while (true)
         {
-            if (machine != null && key != machine) continue;
+            Dictionary<string, StateMachineUpdate> innerUpdates = new();
 
-            updates.Add(key, machines[key].Step(e));
+            int transTaken = 0;
+
+            foreach (string key in machines.Keys)
+            {
+                if (machine != null && key != machine) continue;
+
+                StateMachineUpdate smu = machines[key].Step(e);
+                innerUpdates.Add(key, smu);
+                if (smu.transitionTaken != null) transTaken++;
+            }
+
+            if (transTaken == 0 && e.type == null) break;
+            else updates.Add(innerUpdates);
+
+            e = new(null);
+            repeats++;
+            if (repeats > 20) break;
         }
 
         return updates;
@@ -31,7 +49,7 @@ public class Interpreter
         IDeserializer deserializer = new DeserializerBuilder()
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
             .Build();
-        
+
         HashSet<string> temp = new();
 
         machines = deserializer.Deserialize<Dictionary<string, StateMachine>>(yaml);

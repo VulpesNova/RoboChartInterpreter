@@ -13,19 +13,19 @@ public class TransitionTests
         Event AtoB = new("AtoB");
         Event BtoA = new("BtoA");
 
-        StateMachineUpdate update = inter.Step(BtoA)["movement"];
+        StateMachineUpdate update = inter.Step(BtoA)[0]["movement"];
 
         Assert.Null(update.previous);
         Assert.Null(update.transitionTaken);
         Assert.Equal("A", update.active);
 
-        update = inter.Step(AtoB)["movement"];
+        update = inter.Step(AtoB)[0]["movement"];
 
         Assert.Equal("A", update.previous);
         Assert.NotNull(update.transitionTaken);
         Assert.Equal("B", update.active);
 
-        update = inter.Step(AtoB)["movement"];
+        update = inter.Step(AtoB)[0]["movement"];
 
         Assert.Null(update.previous);
         Assert.Null(update.transitionTaken);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
@@ -88,33 +89,33 @@ public partial class MainWindow : Window
         SendEvent(e, (string?)stateMachineInput.SelectedItem);
     }
 
-    public void SendEvent(Event e, string? machine = null)
+    public async void SendEvent(Event e, string? machine = null)
     {
         var updates = interpreter.Step(e, machine);
 
-        foreach (var update in updates)
+        foreach (var innerUpdates in updates)
         {
-            if (lastUpdates.Keys.Contains(update.Key))
+            foreach (var innerUpdate in innerUpdates)
             {
-                var lastUpdate = lastUpdates[update.Key];
-                stateVisuals[interpreter.machines[update.Key].states[lastUpdate.active]].Colour = Brushes.LightGray;
+                if (lastUpdates.Keys.Contains(innerUpdate.Key))
+                {
+                    var lastUpdate = lastUpdates[innerUpdate.Key];
+                    stateVisuals[interpreter.machines[innerUpdate.Key].states[lastUpdate.active]].Colour = Brushes.LightGray;
+                }
+
+                stateVisuals[interpreter.machines[innerUpdate.Key].states[innerUpdate.Value.active]].Colour = Brushes.LightGreen;
+
+                lastUpdates[innerUpdate.Key] = innerUpdate.Value;
+
+                logBlock.Text += innerUpdate.Value.ToString();
+                logScrollViewer.ScrollToEnd();
             }
 
-            stateVisuals[interpreter.machines[update.Key].states[update.Value.active]].Colour = Brushes.LightGreen;
-
-            lastUpdates[update.Key] = update.Value;
-
-            logBlock.Text += update.Value.ToString();
-            logScrollViewer.ScrollToEnd();
+            if ((bool)multipleTransDelayCheck.IsChecked) await Task.Delay(1000);
         }
     }
 
-    public void OpenYaml(object? sender, System.EventArgs args)
-    {
-        OpenYamlAsync();
-    }
-
-    public async Task OpenYamlAsync()
+    public async void OpenYaml(object? sender, System.EventArgs args)
     {
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
         {
@@ -132,7 +133,12 @@ public partial class MainWindow : Window
         stateMachineInput.Items.Clear();
         List<string> machines = interpreter.machines.Keys.ToList();
         machines.Sort();
-        foreach (string m in machines) stateMachineInput.Items.Add(m);
-        SendEvent(new(""));
+        foreach (string m in machines)
+        {
+            stateMachineInput.Items.Add(m);
+            StateMachine machine = interpreter.machines[m];
+            stateVisuals[machine.states[machine.initial]].Colour = Brushes.LightGreen;
+        }
+
     }
 }

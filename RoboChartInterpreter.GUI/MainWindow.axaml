@@ -17,12 +17,12 @@
         </NativeMenu>
     </NativeMenu.Menu>
     <Grid ColumnDefinitions="3*, *"
-          RowDefinitions="*, Auto, Auto">
+          RowDefinitions="*, Auto, Auto, Auto">
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       Grid.Row="0"
                       Grid.Column="0"
-                      Grid.RowSpan="2">
+                      Grid.RowSpan="3">
             <LayoutTransformControl>
                 <LayoutTransformControl.LayoutTransform>
                     <ScaleTransform ScaleX="2"
@@ -88,5 +88,8 @@
         <TextBox Name="eventValueInput"
                  Grid.Row="2"
                  Grid.Column="1" />
+        <CheckBox Name="multipleTransDelayCheck"
+                  Grid.Row="3"
+                  Grid.Column="1">Add delay between transitions when multiple taken?</CheckBox>
     </Grid>
 </Window>
