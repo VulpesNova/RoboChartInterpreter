@@ -1,0 +1,29 @@
+mA:
+  initial: sA
+  initial_vars:
+    thr: 1
+    thr2: 0.5
+    str: "test"
+  clocks: 
+    - T
+    - C
+  states:
+    sA:
+      transitions:
+        - to: sB
+          type: event.input
+          event: eA
+          variable: var
+          condition: since(T) > thr + thr2
+    sB:
+      transitions:
+        - to: sB
+          type: event.simple
+          event: reset
+          clock_resets:
+            - T
+        - to: sA
+          type: notrigger
+          condition: since(T) == 0
+
+

@@ -77,7 +77,12 @@ public partial class MainWindow : Window
 
     public void TickClocksClick(object? sender, RoutedEventArgs args)
     {
-        DisplayUpdates(interpreter.TickClocks());
+        var updates = interpreter.TickClocks();
+        foreach (StateMachine m in interpreter.machines.Values)
+            logBlock.Text += $"{m.name}: {m.ClockString()}\n\n";
+        logScrollViewer.ScrollToEnd();
+
+        DisplayUpdates(updates);
     }
 
     public void SendEventClick(object? sender, RoutedEventArgs args)

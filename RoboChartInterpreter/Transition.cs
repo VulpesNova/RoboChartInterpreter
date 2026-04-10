@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using RoboChartInterpreter.Expressions;
 using YamlDotNet.Serialization;
 
@@ -36,6 +37,7 @@ public class Transition
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public override string ToString()
     {
         string temp = $"{eventType}";

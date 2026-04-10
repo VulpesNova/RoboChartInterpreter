@@ -148,7 +148,6 @@ namespace RoboChartInterpreter.Expressions
 
         public object VisitClockExpr([NotNull] RoboChartExpressionParser.ClockExprContext context)
         {
-            Console.WriteLine($"{context.NAME().Symbol.Text}: {clocks[context.NAME().Symbol.Text]}");
             return clocks[context.NAME().Symbol.Text];
         }
     }

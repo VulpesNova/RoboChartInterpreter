@@ -20,6 +20,15 @@ public class ExpressionTests
     [InlineData("0.1 == 0.2", false)]
     [InlineData("0.1 != 0.1", false)]
     [InlineData("0.1 != 0.2", true)]
+    [InlineData("0.1 + 0.2 == 0.3", true)]
+    [InlineData("0.5 - 0.2 == 0.3", true)]
+    public void EqualityTest(string input, bool expected)
+    {
+        ExpressionInterpreter visitor = new();
+        Assert.Equal(expected, (bool)visitor.Interpret(input));
+    }
+
+    [Theory]
     [InlineData("0.1 < 0.1", false)]
     [InlineData("0.1 < 0.2", true)]
     [InlineData("0.1 <= 0.1", true)]
@@ -27,8 +36,6 @@ public class ExpressionTests
     [InlineData("0.1 > 0.1", false)]
     [InlineData("0.1 > 1", false)]
     [InlineData("0.1 < 1", true)]
-    [InlineData("0.1 + 0.2 == 0.3", true)]
-    [InlineData("0.5 - 0.2 == 0.3", true)]
     public void ComparisonTest(string input, bool expected)
     {
         ExpressionInterpreter visitor = new();
@@ -45,6 +52,19 @@ public class ExpressionTests
     {
         ExpressionInterpreter visitor = new();
         Assert.Equal(expected, (int)visitor.Interpret(input));
+    }
+
+    [Fact]
+    public void VariableTest()
+    {
+        ExpressionInterpreter visitor = new();
+
+        visitor.variables = new() { { "a", 10 }, { "b", 10.5 }, { "c", "c" }, { "d", true } };
+
+        Assert.Equal(10, (int)visitor.Interpret("a"));
+        Assert.Equal(10.5, (double)visitor.Interpret("b"));
+        Assert.Equal("c", (string)visitor.Interpret("c"));
+        Assert.True((bool)visitor.Interpret("d"));
     }
 
     [Theory]
@@ -68,5 +88,14 @@ public class ExpressionTests
     {
         ExpressionInterpreter visitor = new();
         Assert.Equal(expected, (double)visitor.Interpret(input), 10);
+    }
+
+    [Theory]
+    [InlineData("2 + \"a\"", typeof(InvalidTypeRCException))]
+    [InlineData("2 + (1 == 1)", typeof(InvalidTypeRCException))]
+    public void ErrorTest(string input, Type expected)
+    {
+        ExpressionInterpreter visitor = new();
+        Assert.Throws(expected, () => visitor.Interpret(input));
     }
 }

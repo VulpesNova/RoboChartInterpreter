@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Dynamic;
 using System.Text;
 using RoboChartInterpreter.Expressions;
 using YamlDotNet.Serialization;
@@ -14,7 +15,7 @@ public class StateMachine
     [YamlMember(Alias = "initial_vars", ApplyNamingConventions = false)]
     public Dictionary<string, string> initialVars = new();
     public List<string> clocks = new();
-    ExpressionInterpreter visitor = new();
+    public ExpressionInterpreter visitor = new();
 
     public void Initialize(string _name)
     {
@@ -73,6 +74,12 @@ public class StateMachine
 
         return temp;
     }
+
+    [ExcludeFromCodeCoverage]
+    public string ClockString()
+    {
+        return $"{{{string.Join(", ", visitor.clocks.Select(kv => kv.Key + ": " + kv.Value).ToArray())}}}";
+    }
 }
 
 public class StateMachineUpdate(string _machine, string _active, Event _e)
@@ -83,6 +90,7 @@ public class StateMachineUpdate(string _machine, string _active, Event _e)
     public string active = _active;
     public Event e = _e;
 
+    [ExcludeFromCodeCoverage]
     public override string ToString()
     {
         string message = $"{e.type} ({machine}):\n";
