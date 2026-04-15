@@ -17,12 +17,12 @@
         </NativeMenu>
     </NativeMenu.Menu>
     <Grid ColumnDefinitions="3*, *"
-          RowDefinitions="*, Auto, Auto, Auto">
+          RowDefinitions="*, Auto, Auto">
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       Grid.Row="0"
                       Grid.Column="0"
-                      Grid.RowSpan="3">
+                      Grid.RowSpan="2">
             <LayoutTransformControl>
                 <LayoutTransformControl.LayoutTransform>
                     <ScaleTransform ScaleX="2"
@@ -75,30 +75,44 @@
         </ScrollViewer>
         <Grid Grid.Row="1"
               Grid.Column="1"
-              ColumnDefinitions="*, *, Auto">
+              ColumnDefinitions="Auto, *"
+              RowDefinitions="Auto, Auto, Auto, Auto"
+              HorizontalAlignment="Stretch">
+            <Label Content="Event type:"
+                   Grid.Row="0"
+                   Grid.Column="0" />
             <ComboBox Name="eventNameInput"
-                      Grid.Column="0"
-                      HorizontalAlignment="Stretch" />
-            <ComboBox Name="stateMachineInput"
+                      Grid.Row="0"
                       Grid.Column="1"
                       HorizontalAlignment="Stretch" />
-            <Button Click="SendEventClick"
-                    Grid.Column="2">Send Event</Button>
-        </Grid>
-        <Grid Grid.Row="2"
-              Grid.Column="1"
-              ColumnDefinitions="*, Auto">
+            <Label Content="To machine:"
+                   Grid.Row="1"
+                   Grid.Column="0" />
+            <ComboBox Name="stateMachineInput"
+                      Grid.Row="1"
+                      Grid.Column="1"
+                      HorizontalAlignment="Stretch" />
+            <Label Content="Event value:"
+                   Grid.Row="2"
+                   Grid.Column="0" />
             <TextBox Name="eventValueInput"
-                     Grid.Column="0"
+                     Grid.Row="2"
+                     Grid.Column="1"
                      HorizontalAlignment="Stretch" />
+            <Button Click="SendEventClick"
+                    Grid.Row="3"
+                    Grid.Column="0">                
+                Send Event
+            </Button>
             <Button Click="TickClocksClick"
+                    Grid.Row="3"
                     Grid.Column="1">                
                 Tick Clocks
             </Button>
         </Grid>
         <CheckBox Name="multipleTransDelayCheck"
                   IsChecked="True"
-                  Grid.Row="3"
+                  Grid.Row="2"
                   Grid.Column="1">Add delay between transitions when multiple taken?</CheckBox>
     </Grid>
 </Window>
