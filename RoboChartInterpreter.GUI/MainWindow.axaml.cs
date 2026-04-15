@@ -129,7 +129,7 @@ public partial class MainWindow : Window
         }
     }
 
-    public async void OpenYaml(object? sender, System.EventArgs args)
+    public async void OpenYaml(object? sender, RoutedEventArgs args)
     {
         var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
         {
