@@ -41,7 +41,8 @@ public class Transition
     public override string ToString()
     {
         string temp = $"{eventType}";
-        if (condition != null) temp += $"[{condition}]";
+        if (type == "event.input") temp += $"?{variable}";
+        if (condition != null) temp += $" [{condition}]";
         if (clockResets != null)
             foreach (string clock in clockResets)
                 temp += $" #{clock}";
